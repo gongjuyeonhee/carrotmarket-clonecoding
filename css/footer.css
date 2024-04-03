@@ -1,0 +1,52 @@
+.footer-box {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid #eaeaea;
+  background-color: white;
+}
+
+.footer-block {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.footer-icons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px 0 10px;
+  cursor: pointer;
+}
+
+.footer-icons__desc {
+  margin-top: 5px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.footer-icons__img {
+  width: 30px;
+}
+
+.footer-icons:hover .footer-icons__img {
+  /*아이콘 이미지 자체를 호버했을때 주는 게 아니라*/
+  animation: 1.1s icons-move;
+}
+
+@keyframes icons-move {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
