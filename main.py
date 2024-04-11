@@ -45,7 +45,15 @@ def login(id:Annotated[str,Form()],
         raise InvalidCredentialsException
     elif password != user['password']:
         raise InvalidCredentialsException
-    return ' 200'
+    access_token = manager.create_access_token(data={
+        'id':user['id'],
+        'name':user['name'],
+        'email':user['email']
+        
+
+    })
+    return {'access_token':access_token}
+
 
 @app.post('/signup')
 def signup(id:Annotated[str,Form()], 

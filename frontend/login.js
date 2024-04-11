@@ -12,10 +12,12 @@ const handleSubmit = async (e) => {
   });
   const data = await res.json();
 
+  console.log("액서스토큰!!", data.access_token);
+
   if (res.status === 200) {
     alert("로그인성공");
+    window.location.pathname = "/";
   } else if (res.status === 401) {
-    //이건 또 왜 안되냐...
     alert("아이디 혹은 비밀번호 틀림");
   }
 };
