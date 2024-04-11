@@ -11,15 +11,9 @@ const handleSubmit = async (e) => {
     body: formData,
   });
   const data = await res.json();
-
-  console.log("액서스토큰!!", data.access_token);
-
-  if (res.status === 200) {
-    alert("로그인성공");
-    window.location.pathname = "/";
-  } else if (res.status === 401) {
-    alert("아이디 혹은 비밀번호 틀림");
-  }
+  const accessToken = data.access_token;
+  window.localStorage.setItem("token", accessToken);
+  window.location.pathname = "/";
 };
 
 form.addEventListener("submit", handleSubmit);

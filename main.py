@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, Form, Response
+from fastapi import FastAPI, UploadFile, Form, Response,Depends
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.staticfiles import StaticFiles
@@ -29,11 +29,14 @@ SERCRET = "super-coding"
 manager = LoginManager(SERCRET, './login')
 
 @manager.user_loader()
-def query_user(id):
+def query_user(data):
+    WHERE_STATMENTS = f'''id="{data}"'''
+    if type(data) == dict:
+        WHERE_STATMENTS = f'''id="{data['id']}"'''
     con.row_factory = sqlite3.Row #컬럼명도 가져오는 코드
     cur = con.cursor() #여기 커서 왜 업데이트 해주는 거임?
     user = cur.execute(f"""
-                        SELECT * from users WHERE id='{id}'
+                        SELECT * from users WHERE {WHERE_STATMENTS}
                         """).fetchone()
     return user
 
@@ -46,11 +49,11 @@ def login(id:Annotated[str,Form()],
     elif password != user['password']:
         raise InvalidCredentialsException
     access_token = manager.create_access_token(data={
+        'sub':{
         'id':user['id'],
         'name':user['name'],
         'email':user['email']
-        
-
+        }
     })
     return {'access_token':access_token}
 
@@ -85,7 +88,7 @@ async def create_item(image:UploadFile,
     return '200'
 
 @app.get('/items')
-async def get_items():
+async def get_items(user=Depends(manager)): #로그인 유지되게. 즉 유저로그인 유저되도록
     #컬럼명도 같이 가져옴. 
     con.row_factory =  sqlite3.Row
     cur = con.cursor()
