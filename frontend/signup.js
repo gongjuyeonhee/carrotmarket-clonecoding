@@ -25,9 +25,9 @@ const handleSubmit = async (e) => {
     });
     const data = await res.json();
     if (data === "200") {
-      //   div.innerText = "성공띠";
+      //   div.innerText = "회원가입 성공";
       //   div.style.color = "blue";
-      alert("성공띠");
+      alert("회원가입 성공");
       window.location.pathname = "/login.html";
     }
   } else {
